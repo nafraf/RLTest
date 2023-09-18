@@ -591,6 +591,8 @@ class RLTest:
 
         testFullName = prefix + test.name
 
+        self.printRunningTest(testFullName)
+
         if not test.is_method:
             Defaults.curr_test_name = testFullName
 
@@ -671,16 +673,31 @@ class RLTest:
         return numFailed
 
     def printSkip(self, name):
-        print('%s:\r\n\t%s' % (Colors.Cyan(name), Colors.Green('[SKIP]')))
+        curr_time = time.strftime("%H:%M:%S", time.localtime())
+        print('%s: %s: %s: %d' % (Colors.Cyan(name), Colors.Green('[SKIP]'), \
+            Colors.Gray(curr_time), int(time.time())))
 
     def printFail(self, name):
-        print('%s:\r\n\t%s' % (Colors.Cyan(name), Colors.Bred('[FAIL]')))
+        curr_time = time.strftime("%H:%M:%S", time.localtime())
+        print('%s: %s: %s: %d' % (Colors.Cyan(name), Colors.Bred('[FAIL]'), \
+            Colors.Gray(curr_time), int(time.time())))
 
     def printError(self, name):
-        print('%s:\r\n\t%s' % (Colors.Cyan(name), Colors.Bred('[ERROR]')))
+        curr_time = time.strftime("%H:%M:%S", time.localtime())
+        print('%s: %s: %s: %d' % (Colors.Cyan(name), Colors.Bred('[ERROR]'), \
+            Colors.Gray(curr_time), int(time.time())))
 
     def printPass(self, name):
-        print('%s:\r\n\t%s' % (Colors.Cyan(name), Colors.Green('[PASS]')))
+        curr_time = time.strftime("%H:%M:%S", time.localtime())
+        print('%s: %s: %s: %d' % (Colors.Cyan(name), Colors.Green('[PASS]'), \
+            Colors.Gray(curr_time), int(time.time())))
+
+    def printRunningTest(self, name):
+        if self.parallelism > 1:
+            curr_time = time.strftime("%H:%M:%S", time.localtime())
+            print('%s: %s: %s: %d' % (Colors.Cyan(name), \
+                Colors.Gray('Running...'), Colors.Gray(curr_time), \
+                int(time.time())))
 
     def envScopeGuard(self):
         return EnvScopeGuard(self)
