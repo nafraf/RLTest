@@ -693,11 +693,11 @@ class RLTest:
             Colors.Gray(curr_time), int(time.time())))
 
     def printRunningTest(self, name):
-        if self.parallelism > 1:
-            curr_time = time.strftime("%H:%M:%S", time.localtime())
-            print('%s: %s: %s: %d' % (Colors.Cyan(name), \
-                Colors.Gray('Running...'), Colors.Gray(curr_time), \
-                int(time.time())))
+        # if self.parallelism > 1:
+        curr_time = time.strftime("%H:%M:%S", time.localtime())
+        print('%s: %s: %s: %d' % (Colors.Cyan(name), \
+            Colors.Gray('Running...'), Colors.Gray(curr_time), \
+            int(time.time())))
 
     def envScopeGuard(self):
         return EnvScopeGuard(self)
