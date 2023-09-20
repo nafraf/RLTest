@@ -578,10 +578,13 @@ class RLTest:
             self.printFail(testFullName if testFullName is not None else '')
 
         if env:
+            self.printError('handleFailure: env:' + testname)
             self.addFailuresFromEnv(testname, env)
         elif exception:
+            self.printError('handleFailure: exception:' + testname)
             self.addFailure(testname, str(exception))
         else:
+            self.printError('handleFailure: no exception:' + testname)
             self.addFailure(testname, '<No exception or environment>')
 
     def _runTest(self, test, numberOfAssertionFailed=0, prefix='', before=None, after=None):
@@ -783,8 +786,12 @@ class RLTest:
 
         results = Queue()
         if self.parallelism == 1:
+            curr_time = time.strftime("%H:%M:%S", time.localtime())
+            print('RLTest: Running JOBS: %s: %d' % (Colors.Gray(curr_time), int(time.time())))
             run_jobs(jobs, results, Defaults.port)
         else :
+            curr_time = time.strftime("%H:%M:%S", time.localtime())
+            print('RLTest: Running PROCESSES: %s: %d' % (Colors.Gray(curr_time), int(time.time())))
             processes = []
             currPort = Defaults.port
             for i in range(self.parallelism):
@@ -796,6 +803,8 @@ class RLTest:
             for p in processes:
                 p.join()
 
+        curr_time = time.strftime("%H:%M:%S", time.localtime())
+        print('RLTest: Joining RESULTS: %s: %d' % (Colors.Gray(curr_time), int(time.time())))
         # join results
         while True:
             try:
@@ -805,6 +814,8 @@ class RLTest:
             done += res['done']
             self.testsFailed.extend(res['failures'])
 
+        curr_time = time.strftime("%H:%M:%S", time.localtime())
+        print('RLTest: Print RESULTS: %s: %d' % (Colors.Gray(curr_time), int(time.time())))
         endTime = time.time()
 
         print(Colors.Bold('Test Took: %d sec' % (endTime - startTime)))
